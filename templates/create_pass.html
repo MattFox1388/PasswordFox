@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="createApp">
+<head>
+    <base href="/">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'FoxPasswords/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'FoxPasswords/css/create_pass.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js" integrity="sha256-QRJz3b0/ZZC4ilKmBRRjY0MgnVhQ+RR1tpWLYaRRjSo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-cookies.min.js"></script>
+    <script src="{% static 'FoxPasswords/js/create_pass.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <div id="whole-page">
+        {% include "base.html" %}
+        <div id="page-body" ng-controller="CreateCtrl">
+            <div class="page-content container-fluid">
+                <!-- body -->
+                <h1>Password Generator</h1><br>
+                <form class="form-horizontal" name="myForm">{% csrf_token %}
+                    <div class="form-group">
+                        <label class="col-xs-2" for="wordOne">Word One (must be 4 chars): </label>
+                        <input ng-model="wordOne" type="text" name="wordOne" id="formWordOne" class="form-control" placeholder="Enter A Word" ng-minlength="4" required>
+                        <span style="color:red" ng-show="myForm.wordOne.$dirty && myForm.wordOne.$invalid">
+                            <span ng-show="myForm.wordOne.$error.required">Required</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2" for="wordTwo">Word Two (must be 4 chars): </label>
+                        <input ng-model="wordTwo" type="text" name="wordTwo" id="formWordTwo" class="form-control" placeholder="Enter A Word" ng-minlength="4" required>
+                        <span style="color:red" ng-show="myForm.wordTwo.$dirty && myForm.wordTwo.$invalid">
+                            <span ng-show="myForm.wordTwo.$error.required">Required</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2" for="age">Age: </label>
+                        <input ng-model="age" type="number" name="age" id="formAge" class="form-control" required>
+                        <span style="color:red">
+                            <span ng-show="myForm.age.$error.required">Required</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2" for="type">Type of Account: </label>
+                        <input ng-model="type" type="text" name="wordTwo" id="formType" class="form-control" placeholder="Enter A Type" ng-minlength="2" required>
+                        <span style="color:red" ng-show="myForm.type.$dirty && myForm.type.$invalid">
+                            <span ng-show="myForm.type.$error.required">Required</span>
+                        </span>
+                    </div>
+                </form>
+                 <button class="btn btn-primary" ng-disabled="!myForm.$valid"  ng-click="createPassword($event)">Submit</button>
+                <br>Your new password is: {$ password $}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

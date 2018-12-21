@@ -1,0 +1,24 @@
+<div id="fixed-sidebar">
+            <ul class="navigation-sidebar">
+                {% if request.user.is_authenticated %}
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/passwords">Passwords</a></li>
+                <li><a href="/memos">Memos</a></li>
+                <li><a href="/create_pass">Create Password</a></li>
+                {% endif %}
+                <div id="auth-elems">
+                    {% if not request.user.is_authenticated %}
+                    <li><a href="/login">Log In</a></li>
+                    <li><a href="/register">Register</a></li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+                    <li><a href="/logout">Log Out</a></li>
+                    {% endif %}
+
+                {% if request.user.is_authenticated %}
+                    <li><i>Hello {{ request.user.username }}</i></li>
+                {% endif %}
+                </div>
+            </ul>
+        </div>

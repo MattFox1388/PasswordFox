@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mainApp">
+<head>
+    <base href="/">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'FoxPasswords/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'FoxPasswords/css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js" integrity="sha256-QRJz3b0/ZZC4ilKmBRRjY0MgnVhQ+RR1tpWLYaRRjSo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular-route.min.js"></script>
+    <script src="{% static 'FoxPasswords/js/main.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <div id="whole-page">
+        {% include "base.html" %}
+        <div id="page-body" ng-controller="MainCtrl">
+            <div class="page-content container-fluid">
+                <!-- body -->
+                <div class="jumbotron">
+                    <h1 id="title">Fox Passwords</h1>
+                    <img id = 'lock' src="{% static 'FoxPasswords/img/lock.png' %}"/>
+                    <br><br><p>Welcome to Fox Passwords where your password security is our only priority. We not only securely store passwords, but also store memos and create newly generated passwords.
+                    Please sign up as soon as possible because our service is free of charge. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

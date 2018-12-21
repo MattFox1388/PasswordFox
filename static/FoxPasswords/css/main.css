@@ -1,0 +1,12 @@
+#lock{
+    width:200px;
+    height:auto;
+    display:inline-block;
+}
+#title {
+    display:inline-block;
+    margin-right:50%;
+}
+.jumbotron{
+    margin-top:20px;
+}

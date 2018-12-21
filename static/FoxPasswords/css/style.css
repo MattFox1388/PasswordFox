@@ -1,0 +1,45 @@
+#whole-page {
+  padding-left: 250px;
+  transition: all 0.4s ease 0s;
+}
+#page-body{
+    width: 100%;
+}
+#fixed-sidebar{
+  margin-left: -250px;
+  left: 250px;
+  width: 250px;
+  background: #5C5786;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+}
+.navigation-sidebar{
+  position: absolute;
+  margin-top:20px;
+  width: 250px;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+.navigation-sidebar li{
+    margin-bottom:5px;
+    font-size:20px;
+}
+.navigation-sidebar li:hover{
+    background-color: #D3D3D3;
+}
+.navigation-sidebar a{
+    text-decoration: none !important;
+    color:white;
+}
+#auth-elems{
+    position: fixed;
+    bottom:0%;
+    margin-left:70px;
+}
+#auth-elems li{
+    text-align:center;
+}

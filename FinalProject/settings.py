@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '0ujch&@1s-3!hddyppd1+-+4r&sh-j4$8r1*+9tb2u^4%^6^#*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -78,14 +78,9 @@ WSGI_APPLICATION = 'FinalProject.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'password',
-        'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-    }
+	'default': dj_database_url.config(
+		default=config('DATABASE_URL')
+	)
 }
 
 
@@ -138,3 +133,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+SECRET_KEY = config('SECRET_KEY')

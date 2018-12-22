@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'Optional default value' )
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['demo-finalprojectcs.herokuapp.com']
 
 
 # Application definition

@@ -19,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FinalProject/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-555">
-              <caret line="79" selection-start-line="79" selection-end-line="79" />
+            <state relative-caret-position="270">
+              <caret line="134" column="45" selection-start-line="134" selection-start-column="45" selection-end-line="134" selection-end-column="45" />
               <folding>
                 <element signature="e#313#322#0" expanded="true" />
               </folding>
@@ -218,15 +218,16 @@
       <workItem from="1544749905537" duration="19867000" />
       <workItem from="1544918079234" duration="49841000" />
       <workItem from="1545191504101" duration="9000000" />
-      <workItem from="1545430316144" duration="6484000" />
+      <workItem from="1545430316144" duration="6781000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99597000" />
+    <option name="totallyTimeSpent" value="99894000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1360" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16438356" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -462,8 +463,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FinalProject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-555">
-          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        <state relative-caret-position="270">
+          <caret line="134" column="45" selection-start-line="134" selection-start-column="45" selection-end-line="134" selection-end-column="45" />
           <folding>
             <element signature="e#313#322#0" expanded="true" />
           </folding>

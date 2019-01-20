@@ -65,9 +65,18 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
                 var btn = document.createElement('button');
                 btn.className = 'btn btn-info';
                 btn.textContent = 'See Password';
-                pass = 'showPass(' + '$event' + ')';
-                console.log(pass);
+                pass = 'showPass($event)';
                 btn.setAttribute('ng-click', pass);
+                let editBtn = document.createElement('button');
+                editBtn.className = 'btn btn-primary';
+                editBtn.textContent = 'Edit';
+                let editContent = 'editPass($event)';
+                editBtn.setAttribute('ng-click', editContent);
+                let deleteBtn = document.createElement('button');
+                deleteBtn.className = 'btn btn-danger';
+                deleteBtn.textContent = 'Delete';
+                let deleteContent = 'deletePass($event)';
+                deleteBtn.setAttribute('ng-click', deleteContent);
                 //append all together
                 outDiv.appendChild(cardDiv);
                 cardDiv.appendChild(cardBody);
@@ -75,6 +84,8 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
                 cardBody.appendChild(txt);
                 cardBody.appendChild(btn);
                 angular.element(cardBody).append($compile(btn)($scope));
+                angular.element(cardBody).append($compile(editBtn)($scope));
+                angular.element(cardBody).append($compile(deleteBtn)($scope));
                 h5.appendChild(strong);
                 //add another card with created element
                 var count = document.querySelectorAll('.cardDiv').length;

@@ -10,14 +10,25 @@ app.config(['$httpProvider', function($httpProvider){
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }]);
 
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+
 var cookiesProvider_ref = null;
 app.config( function($cookiesProvider) {
    cookiesProvider_ref = $cookiesProvider
 });
 
-app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerializerJQLike, ngDialog, $compile){
+app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerializerJQLike, ngDialog, $compile, $window){
    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
    $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrfmiddlewaretoken;
+
+   $scope.passwordContent = {
+       website:'',
+       password:''
+   };
+   $scope.dialog = null;
+
     $scope.hidePass = function($event){
         let x = document.getElementById("formPass");
         if (x.type === "password") {
@@ -29,7 +40,7 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
    //function called when form submit
     $scope.submit = function($event){
         $event.preventDefault();//no reload
-        var input = $httpParamSerializerJQLike({'getWebsite': '', 'website': $scope.Account.website, 'email': $scope.Account.email, 'password': $scope.Account.password, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        var input = $httpParamSerializerJQLike({'getWebsite':false, 'deletePass':false, 'editPass':false, 'website': $scope.Account.website, 'email': $scope.Account.email, 'password': $scope.Account.password, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         //post to django
         $http.post('', input)
             .then(function successCallback(response){
@@ -88,17 +99,58 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
     $scope.showPass = function($event){
         let elem = $event.target;
         let website = elem.parentNode.getElementsByTagName('strong')[0].textContent;
-        let input = $httpParamSerializerJQLike({'getWebsite': website, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({'getWebsite':true, 'deletePass':false, 'editPass':false, 'website':website,'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         // post to django
         $http.post('', input)
             .then(function successCallback(response){
                 let password = response.data.context[0].password;
-                ngDialog.open({
+                ngDialog.openConfirm({
                     template: password,
                     plain: true
                 });
             },function errorCallback(response){
                 console.log(response);
+            });
+    };
+    //edit memo
+    $scope.editPass = function($event){
+        let elem = $event.target;
+        let website = elem.parentNode.getElementsByTagName('strong')[0].textContent;
+        let input = $httpParamSerializerJQLike({'getWebsite':true, 'deletePass':false, 'editPass':false, 'website': website, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        //get the password
+        $http.post('', input)
+            .then(function successCallback(response){
+                let password = response.data.context[0].password;
+                $scope.passwordContent.password = password;
+                $scope.passwordContent.website = website;
+                let template = '<input type="password" ng-model="passwordContent.password"/>' + '<br><button class="btn btn-primary" ng-click="changeContent()">submit</button>';
+                ngDialog.openConfirm({
+                    template: template,
+                    plain: true,
+                    scope: $scope
+                },function errorCallback(response){
+                    console.log(response);
+                });
+            });
+    };
+    //change password content
+    $scope.changeContent = function(){
+        let input = $httpParamSerializerJQLike({'getWebsite':false, 'deletePass':false, 'editPass':true, 'website':$scope.passwordContent.website, 'changedPassword':$scope.passwordContent.password, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        $http.post('', input)
+            .then(function successCallback(response){
+                console.log("Editing Successful");
+                $scope.dialog.close();
+            });
+    };
+    //delete password
+    $scope.deletePass = function($event){
+        let elem = $event.target;
+        let website = elem.parentNode.getElementsByTagName('strong')[0].textContent;
+        let input = $httpParamSerializerJQLike({'getWebsite':false, 'deletePass':true, 'editMemo':false, 'website':website, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        $http.post('', input)
+            .then(function successCallback(response){
+                console.log("Deletion Successful");
+                $window.location.reload();
             });
     };
 });

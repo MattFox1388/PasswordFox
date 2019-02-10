@@ -66,6 +66,8 @@ class PasswordsView(View):
     @method_decorator(csrf_protect)
     def get(self, request):
         storedpass = Accounts.objects.filter(author=request.user).values()
+        for item in storedpass:
+            item.encode('utf8')
         return render(request, 'passwords.html', {'stored': storedpass})
 
     @method_decorator(login_required)

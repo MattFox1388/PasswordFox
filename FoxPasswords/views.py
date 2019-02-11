@@ -8,6 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.http import JsonResponse
 from .models import Accounts, Memos
+import urllib as dec
 
 import json
 # Create your views here.
@@ -67,7 +68,11 @@ class PasswordsView(View):
     def get(self, request):
         storedpass = Accounts.objects.filter(author=request.user).values()
         for item in storedpass:
-            item.encode('utf8')
+            print("Website: %s, Password: %s, Email: %s, Username: %s" % (item['website'], item['password'], item['email'], item['username']))
+            item['website'] = dec.parse.unquote(item['website'])
+            item['password'] = dec.parse.unquote(item['password'])
+            item['email'] = dec.parse.unquote(item['email'])
+            item['username'] = dec.parse.unquote(item['username'])
         return render(request, 'passwords.html', {'stored': storedpass})
 
     @method_decorator(login_required)
@@ -97,13 +102,14 @@ class PasswordsView(View):
         website = request.POST['website']
         email = request.POST['email']
         password = request.POST['password']
+        username = request.POST['username']
         substr = "www."
         if substr in website:
             website = website.replace("www.", "").replace("https://", "").replace("http://", "")
             icon = website[0:1]
         else:
             icon = website[0:1]
-        Accounts.objects.create(website=website, icon=icon, email=email, password=password, author=request.user)
+        Accounts.objects.create(website=website, icon=icon, email=email, password=password, author=request.user, username=username)
         # get all accounts updated
         accs = Accounts.objects.filter(author=request.user).values()
         return JsonResponse({'accounts': list(accs)})
@@ -127,6 +133,12 @@ class MemosView(View):
     @method_decorator(csrf_protect)
     def get(self, request):
         stored_memos = Memos.objects.filter(author=request.user).values()
+
+        for item in stored_memos:
+            print("Title: %s, Content: %s" % (
+                item['title'], item['content']))
+            item['title'] = dec.parse.unquote(item['title'])
+            item['content'] = dec.parse.unquote(item['content'])
         return render(request, 'memos.html', {'stored': stored_memos})
 
     @method_decorator(login_required)
@@ -147,7 +159,8 @@ class MemosView(View):
             return self.noTitle(request)
 
     def getTitle(self, request):
-        title = request.POST['title']
+        title =request.POST['title']
+        print(title)
         context = Memos.objects.filter(title=title).values()
         return JsonResponse({'context': list(context)})
 

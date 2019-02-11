@@ -36,7 +36,7 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
 
   $scope.submit = function($event){
         $event.preventDefault();//no reload
-        let input = $httpParamSerializerJQLike({ 'getTitle':false, 'deleteMemo':false, 'editMemo':false, 'title': $scope.Memo.title, 'content': $scope.Memo.content, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({ 'getTitle':false, 'deleteMemo':false, 'editMemo':false, 'title': encodeURIComponent($scope.Memo.title), 'content': encodeURIComponent($scope.Memo.content), 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         //post to django
         $http.post('', input)
             .then(function successCallback(response){
@@ -54,7 +54,7 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
                 let h5 = document.createElement('h5');
                 h5.className = 'card-title';
                 let strong = document.createElement('strong');
-                strong.textContent = response.data.memos[0].title;
+                strong.textContent = decodeURIComponent(response.data.memos[0].title);
                 let txt = document.createElement('p');
                 txt.className = 'card-text';
                 txt.textContent = 'Date Modified: '+ parseISO(response.data.memos[0].date_modified);
@@ -110,11 +110,11 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
     $scope.showContent = function($event){
         let elem = $event.target;
         let title = elem.parentNode.getElementsByTagName('strong')[0].textContent;
-        let input = $httpParamSerializerJQLike({'getTitle':true , 'deleteMemo':false, 'editMemo':false, 'title': title, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({'getTitle':true , 'deleteMemo':false, 'editMemo':false, 'title': encodeURIComponent(title), 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         //post to django
         $http.post('', input)
             .then(function successCallback(response){
-                let content = response.data.context[0].content;
+                let content = decodeURIComponent(response.data.context[0].content);
                 ngDialog.open({
                     template: content,
                     plain: true
@@ -127,11 +127,11 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
     $scope.editContent = function($event){
         let elem = $event.target;
         let title = elem.parentNode.getElementsByTagName('strong')[0].textContent;
-        let input = $httpParamSerializerJQLike({'getTitle':true, 'deleteMemo':false, 'editMemo':false, 'title':title, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({'getTitle':true, 'deleteMemo':false, 'editMemo':false, 'title':encodeURIComponent(title), 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         //get the content
         $http.post('', input)
             .then(function successCallback(response){
-                let content = response.data.context[0].content;
+                let content = decodeURIComponent(response.data.context[0].content);
                 $scope.memoContent.text = content;
                 $scope.memoContent.title = title;
                 let template = '<textarea rows="4" cols="40" ng-model="memoContent.text"></textarea>' + '<br><button class="btn btn-primary" ng-click="changeContent()">submit</button>';
@@ -147,7 +147,7 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
     //change memo's content
     $scope.changeContent = function(){
         console.log($scope.memoContent);
-        let input = $httpParamSerializerJQLike({'getTitle':false, 'deleteMemo':false, 'editMemo':true, 'title':$scope.memoContent.title, 'changedContent':$scope.memoContent.text, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({'getTitle':false, 'deleteMemo':false, 'editMemo':true, 'title':encodeURIComponent($scope.memoContent.title), 'changedContent':encodeURIComponent($scope.memoContent.text), 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         $http.post('', input)
             .then(function successCallback(response){
                 console.log("Editing Successful");
@@ -158,7 +158,7 @@ app.controller('MemosCtrl', function($scope, $http, $cookies, $httpParamSerializ
     $scope.deleteContent = function($event){
         let elem = $event.target;
         let title = elem.parentNode.getElementsByTagName('strong')[0].textContent;
-        let input = $httpParamSerializerJQLike({'getTitle':false, 'deleteMemo':true, 'editMemo':false, 'title':title, 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
+        let input = $httpParamSerializerJQLike({'getTitle':false, 'deleteMemo':true, 'editMemo':false, 'title':encodeURIComponent(title), 'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         $http.post('', input)
             .then(function successCallback(response){
                 console.log("Deletion Successful");

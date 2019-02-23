@@ -41,7 +41,7 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
     $scope.submit = function($event){
         $event.preventDefault();//no reload
         var input = $httpParamSerializerJQLike({'getWebsite':false, 'deletePass':false, 'editPass':false,
-            'username':encodeURIComponent($scope.Account.username), 'website': encodeURIComponent($scope.Account.website),
+            'usernameFox':encodeURIComponent($scope.Account.usernameFox), 'website': encodeURIComponent($scope.Account.website),
             'email': encodeURIComponent($scope.Account.email), 'password': encodeURIComponent($scope.Account.password),
             'csrfmiddlewaretoken': $cookies.csrfmiddlewaretoken});
         //post to django
@@ -68,7 +68,7 @@ app.controller('PassCtrl', function($scope, $http, $cookies, $httpParamSerialize
                 //username text
                 var h6 = document.createElement('h6');
                 h6.className = 'card-text';
-                h6.textContent = "Username: " + decodeURIComponent(response.data.accounts[indexLastAcc].username);
+                h6.textContent = "Username: " + decodeURIComponent(response.data.accounts[indexLastAcc].usernameFox);
                 //email text
                 var txt = document.createElement('p');
                 txt.className = 'card-text';

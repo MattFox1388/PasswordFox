@@ -7,7 +7,7 @@ class Accounts(models.Model):
     website = models.CharField(max_length=255)
     icon = models.CharField(max_length=1)
     email = models.CharField(max_length=255, default='example@aol.com')
-    username = models.CharField(max_length=255, default='unknown_username ')
+    usernameFox = models.CharField(max_length=255, default='unknown_username ')
     password = models.CharField(max_length=255)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

@@ -68,11 +68,11 @@ class PasswordsView(View):
     def get(self, request):
         storedpass = Accounts.objects.filter(author=request.user).values()
         for item in storedpass:
-            print("Website: %s, Password: %s, Email: %s, Username: %s" % (item['website'], item['password'], item['email'], item['username']))
+            print("Website: %s, Password: %s, Email: %s, Username: %s" % (item['website'], item['password'], item['email'], item['usernameFox']))
             item['website'] = dec.parse.unquote(item['website'])
             item['password'] = dec.parse.unquote(item['password'])
             item['email'] = dec.parse.unquote(item['email'])
-            item['username'] = dec.parse.unquote(item['username'])
+            item['usernameFox'] = dec.parse.unquote(item['usernameFox'])
         return render(request, 'passwords.html', {'stored': storedpass})
 
     @method_decorator(login_required)
@@ -102,14 +102,14 @@ class PasswordsView(View):
         website = request.POST['website']
         email = request.POST['email']
         password = request.POST['password']
-        username = request.POST['username']
+        username = request.POST['usernameFox']
         substr = "www."
         if substr in website:
             website = website.replace("www.", "").replace("https://", "").replace("http://", "")
             icon = website[0:1]
         else:
             icon = website[0:1]
-        Accounts.objects.create(website=website, icon=icon, email=email, password=password, author=request.user, username=username)
+        Accounts.objects.create(website=website, icon=icon, email=email, password=password, author=request.user, usernameFox=username)
         # get all accounts updated
         accs = Accounts.objects.filter(author=request.user).values()
         return JsonResponse({'accounts': list(accs)})

@@ -9,7 +9,6 @@ gunicorn==19.9.0
 psycopg2==2.7.6.1
 pyasn1==0.4.5
 pycparser==2.19
-pycrypto==2.6.1
 python-decouple==3.1
 python-keyczar==0.716
 pytz==2018.7
